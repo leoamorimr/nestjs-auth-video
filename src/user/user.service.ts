@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Param } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
@@ -20,7 +20,11 @@ export class UserService {
     return { ...createdUser, password: undefined };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findByEmail(email: string) {
+    return this.prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
   }
 }
